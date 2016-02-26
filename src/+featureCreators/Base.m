@@ -80,6 +80,21 @@ classdef Base < core.IdProcInterface
                 fprintf( '.' );
             end
         end
+        
+        function afeBlock = maskData( obj, afeData, mask )
+            afeBlock = containers.Map( 'KeyType', 'int32', 'ValueType', 'any' );
+            for afeKey = afeData.keys
+                afeSignal = afeData(afeKey{1});
+                if isa( afeSignal, 'cell' )
+                    afeSignalExtract{1} = afeSignal{1}.maskSignalCopy( mask );
+                    afeSignalExtract{2} = afeSignal{2}.maskSignalCopy( mask );
+                else
+                    afeSignalExtract = afeSignal.maskSignalCopy( mask );
+                end
+                afeBlock(afeKey{1}) = afeSignalExtract;
+                fprintf( '.' );
+            end
+        end
         %% ----------------------------------------------------------------
         
     end
